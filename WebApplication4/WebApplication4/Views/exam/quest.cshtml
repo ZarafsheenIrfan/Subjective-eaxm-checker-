@@ -1,0 +1,60 @@
+﻿@model WebApplication4.Models.question
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>quest</title>
+</head>
+<body>
+    @using (Html.BeginForm("quest", "exam", FormMethod.Post)) 
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>question</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qno, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Qno)
+                    @Html.ValidationMessageFor(model => model.Qno)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qdescription, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Qdescription)
+                    @Html.ValidationMessageFor(model => model.Qdescription)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.course_code, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.course_code)
+                    @Html.ValidationMessageFor(model => model.course_code)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

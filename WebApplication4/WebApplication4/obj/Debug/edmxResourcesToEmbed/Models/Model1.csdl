@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="online_examModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="remember" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="confirm_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="course_code" />
+    </Key>
+    <Property Name="course_code" Type="Int32" Nullable="false" />
+    <Property Name="course_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="credit_hours" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="student" Relationship="Self.FK_course_student" FromRole="course" ToRole="student" />
+  </EntityType>
+  <EntityType Name="paper">
+    <Key>
+      <PropertyRef Name="course_code" />
+    </Key>
+    <Property Name="course_code" Type="Int32" Nullable="false" />
+    <Property Name="subject_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="t_id" Type="Int32" Nullable="false" />
+    <Property Name="count" Type="Int32" />
+    <NavigationProperty Name="teacher" Relationship="Self.FK_paper_teacher" FromRole="paper" ToRole="teacher" />
+    <NavigationProperty Name="questions" Relationship="Self.FK_question_paper" FromRole="paper" ToRole="question" />
+    <NavigationProperty Name="solutions" Relationship="Self.FK_solution_paper" FromRole="paper" ToRole="solution" />
+  </EntityType>
+  <EntityType Name="question">
+    <Key>
+      <PropertyRef Name="Qno" />
+    </Key>
+    <Property Name="Qno" Type="Int32" Nullable="false" />
+    <Property Name="Qdescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="course_code" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="paper" Relationship="Self.FK_question_paper" FromRole="question" ToRole="paper" />
+    <NavigationProperty Name="question1" Relationship="Self.FK_question_question" FromRole="question" ToRole="question1" />
+    <NavigationProperty Name="question2" Relationship="Self.FK_question_question" FromRole="question1" ToRole="question" />
+    <NavigationProperty Name="question11" Relationship="Self.FK_question_question1" FromRole="question" ToRole="question1" />
+    <NavigationProperty Name="question3" Relationship="Self.FK_question_question1" FromRole="question1" ToRole="question" />
+    <NavigationProperty Name="question12" Relationship="Self.FK_question_question2" FromRole="question" ToRole="question1" />
+    <NavigationProperty Name="question4" Relationship="Self.FK_question_question2" FromRole="question1" ToRole="question" />
+  </EntityType>
+  <EntityType Name="solution">
+    <Key>
+      <PropertyRef Name="ansno" />
+    </Key>
+    <Property Name="ansno" Type="Int32" Nullable="false" />
+    <Property Name="ans_description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="course_code" Type="Int32" />
+    <NavigationProperty Name="paper" Relationship="Self.FK_solution_paper" FromRole="solution" ToRole="paper" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="stu_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="stu_phone" Type="Int32" />
+    <Property Name="major" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="t_id" Type="Int32" />
+    <Property Name="password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="courses" Relationship="Self.FK_course_student" FromRole="student" ToRole="course" />
+    <NavigationProperty Name="teacher" Relationship="Self.FK_student_teacher" FromRole="student" ToRole="teacher" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="teacher">
+    <Key>
+      <PropertyRef Name="t_id" />
+    </Key>
+    <Property Name="t_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="t_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="rank" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="papers" Relationship="Self.FK_paper_teacher" FromRole="teacher" ToRole="paper" />
+    <NavigationProperty Name="students" Relationship="Self.FK_student_teacher" FromRole="teacher" ToRole="student" />
+  </EntityType>
+  <Association Name="FK_course_student">
+    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="course" Type="Self.course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="course">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paper_teacher">
+    <End Role="teacher" Type="Self.teacher" Multiplicity="1" />
+    <End Role="paper" Type="Self.paper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teacher">
+        <PropertyRef Name="t_id" />
+      </Principal>
+      <Dependent Role="paper">
+        <PropertyRef Name="t_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_paper">
+    <End Role="paper" Type="Self.paper" Multiplicity="1" />
+    <End Role="question" Type="Self.question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paper">
+        <PropertyRef Name="course_code" />
+      </Principal>
+      <Dependent Role="question">
+        <PropertyRef Name="course_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_solution_paper">
+    <End Role="paper" Type="Self.paper" Multiplicity="0..1" />
+    <End Role="solution" Type="Self.solution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paper">
+        <PropertyRef Name="course_code" />
+      </Principal>
+      <Dependent Role="solution">
+        <PropertyRef Name="course_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_question">
+    <End Role="question" Type="Self.question" Multiplicity="1" />
+    <End Role="question1" Type="Self.question" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="question">
+        <PropertyRef Name="Qno" />
+      </Principal>
+      <Dependent Role="question1">
+        <PropertyRef Name="Qno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_question1">
+    <End Role="question" Type="Self.question" Multiplicity="1" />
+    <End Role="question1" Type="Self.question" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="question">
+        <PropertyRef Name="Qno" />
+      </Principal>
+      <Dependent Role="question1">
+        <PropertyRef Name="Qno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_question2">
+    <End Role="question" Type="Self.question" Multiplicity="1" />
+    <End Role="question1" Type="Self.question" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="question">
+        <PropertyRef Name="Qno" />
+      </Principal>
+      <Dependent Role="question1">
+        <PropertyRef Name="Qno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_teacher">
+    <End Role="teacher" Type="Self.teacher" Multiplicity="0..1" />
+    <End Role="student" Type="Self.student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teacher">
+        <PropertyRef Name="t_id" />
+      </Principal>
+      <Dependent Role="student">
+        <PropertyRef Name="t_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="online_examEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="accounts" EntityType="Self.account" />
+    <EntitySet Name="courses" EntityType="Self.course" />
+    <EntitySet Name="papers" EntityType="Self.paper" />
+    <EntitySet Name="questions" EntityType="Self.question" />
+    <EntitySet Name="solutions" EntityType="Self.solution" />
+    <EntitySet Name="students" EntityType="Self.student" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="teachers" EntityType="Self.teacher" />
+    <AssociationSet Name="FK_course_student" Association="Self.FK_course_student">
+      <End Role="student" EntitySet="students" />
+      <End Role="course" EntitySet="courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paper_teacher" Association="Self.FK_paper_teacher">
+      <End Role="teacher" EntitySet="teachers" />
+      <End Role="paper" EntitySet="papers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_paper" Association="Self.FK_question_paper">
+      <End Role="paper" EntitySet="papers" />
+      <End Role="question" EntitySet="questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_solution_paper" Association="Self.FK_solution_paper">
+      <End Role="paper" EntitySet="papers" />
+      <End Role="solution" EntitySet="solutions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_question" Association="Self.FK_question_question">
+      <End Role="question" EntitySet="questions" />
+      <End Role="question1" EntitySet="questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_question1" Association="Self.FK_question_question1">
+      <End Role="question" EntitySet="questions" />
+      <End Role="question1" EntitySet="questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_question2" Association="Self.FK_question_question2">
+      <End Role="question" EntitySet="questions" />
+      <End Role="question1" EntitySet="questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_teacher" Association="Self.FK_student_teacher">
+      <End Role="teacher" EntitySet="teachers" />
+      <End Role="student" EntitySet="students" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

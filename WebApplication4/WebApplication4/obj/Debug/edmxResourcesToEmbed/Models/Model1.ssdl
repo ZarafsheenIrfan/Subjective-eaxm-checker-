@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="online_examModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="accounts">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="remember" Type="varchar" MaxLength="50" />
+    <Property Name="confirm_password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="course_code" />
+    </Key>
+    <Property Name="course_code" Type="int" Nullable="false" />
+    <Property Name="course_name" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="credit_hours" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="paper">
+    <Key>
+      <PropertyRef Name="course_code" />
+    </Key>
+    <Property Name="course_code" Type="int" Nullable="false" />
+    <Property Name="subject_name" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="t_id" Type="int" Nullable="false" />
+    <Property Name="count" Type="int" />
+  </EntityType>
+  <EntityType Name="question">
+    <Key>
+      <PropertyRef Name="Qno" />
+    </Key>
+    <Property Name="Qno" Type="int" Nullable="false" />
+    <Property Name="Qdescription" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="course_code" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="solution">
+    <Key>
+      <PropertyRef Name="ansno" />
+    </Key>
+    <Property Name="ansno" Type="int" Nullable="false" />
+    <Property Name="ans_description" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="course_code" Type="int" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="stu_name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="stu_phone" Type="int" />
+    <Property Name="major" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="t_id" Type="int" />
+    <Property Name="password" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="teacher">
+    <Key>
+      <PropertyRef Name="t_id" />
+    </Key>
+    <Property Name="t_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="t_name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="rank" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="20" />
+    <Property Name="password" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_course_student">
+    <End Role="student" Type="Self.student" Multiplicity="1" />
+    <End Role="course" Type="Self.course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="course">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_paper_teacher">
+    <End Role="teacher" Type="Self.teacher" Multiplicity="1" />
+    <End Role="paper" Type="Self.paper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teacher">
+        <PropertyRef Name="t_id" />
+      </Principal>
+      <Dependent Role="paper">
+        <PropertyRef Name="t_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_paper">
+    <End Role="paper" Type="Self.paper" Multiplicity="1" />
+    <End Role="question" Type="Self.question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paper">
+        <PropertyRef Name="course_code" />
+      </Principal>
+      <Dependent Role="question">
+        <PropertyRef Name="course_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_question">
+    <End Role="question" Type="Self.question" Multiplicity="1" />
+    <End Role="question1" Type="Self.question" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="question">
+        <PropertyRef Name="Qno" />
+      </Principal>
+      <Dependent Role="question1">
+        <PropertyRef Name="Qno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_question1">
+    <End Role="question" Type="Self.question" Multiplicity="1" />
+    <End Role="question1" Type="Self.question" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="question">
+        <PropertyRef Name="Qno" />
+      </Principal>
+      <Dependent Role="question1">
+        <PropertyRef Name="Qno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_question_question2">
+    <End Role="question" Type="Self.question" Multiplicity="1" />
+    <End Role="question1" Type="Self.question" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="question">
+        <PropertyRef Name="Qno" />
+      </Principal>
+      <Dependent Role="question1">
+        <PropertyRef Name="Qno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_solution_paper">
+    <End Role="paper" Type="Self.paper" Multiplicity="0..1" />
+    <End Role="solution" Type="Self.solution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paper">
+        <PropertyRef Name="course_code" />
+      </Principal>
+      <Dependent Role="solution">
+        <PropertyRef Name="course_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_student_teacher">
+    <End Role="teacher" Type="Self.teacher" Multiplicity="0..1" />
+    <End Role="student" Type="Self.student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teacher">
+        <PropertyRef Name="t_id" />
+      </Principal>
+      <Dependent Role="student">
+        <PropertyRef Name="t_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="online_examModelStoreContainer">
+    <EntitySet Name="accounts" EntityType="Self.accounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="course" EntityType="Self.course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paper" EntityType="Self.paper" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="question" EntityType="Self.question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="solution" EntityType="Self.solution" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="teacher" EntityType="Self.teacher" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_course_student" Association="Self.FK_course_student">
+      <End Role="student" EntitySet="student" />
+      <End Role="course" EntitySet="course" />
+    </AssociationSet>
+    <AssociationSet Name="FK_paper_teacher" Association="Self.FK_paper_teacher">
+      <End Role="teacher" EntitySet="teacher" />
+      <End Role="paper" EntitySet="paper" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_paper" Association="Self.FK_question_paper">
+      <End Role="paper" EntitySet="paper" />
+      <End Role="question" EntitySet="question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_question" Association="Self.FK_question_question">
+      <End Role="question" EntitySet="question" />
+      <End Role="question1" EntitySet="question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_question1" Association="Self.FK_question_question1">
+      <End Role="question" EntitySet="question" />
+      <End Role="question1" EntitySet="question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_question_question2" Association="Self.FK_question_question2">
+      <End Role="question" EntitySet="question" />
+      <End Role="question1" EntitySet="question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_solution_paper" Association="Self.FK_solution_paper">
+      <End Role="paper" EntitySet="paper" />
+      <End Role="solution" EntitySet="solution" />
+    </AssociationSet>
+    <AssociationSet Name="FK_student_teacher" Association="Self.FK_student_teacher">
+      <End Role="teacher" EntitySet="teacher" />
+      <End Role="student" EntitySet="student" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,74 @@
+﻿@model WebApplication4.Models.paper
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>paperdb</title>
+    
+</head>
+<body>
+    @using (Html.BeginForm("paperdb","exam",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>paper</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.course_code )
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.course_code)
+                    @Html.ValidationMessageFor(model => model.course_code)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.subject_name)
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.subject_name)
+                    @Html.ValidationMessageFor(model => model.subject_name)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.t_id)
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.t_id)
+                    @Html.ValidationMessageFor(model => model.t_id)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.count )
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.count)
+                    @Html.ValidationMessageFor(model => model.count)
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="get-started-btn ml-auto">
+                    @Html.ActionLink("submit", "quest", "exam", routeValues: null, htmlAttributes: new { id = "registerLink", @style = "color:black;margin-right: 20px;" })
+                    @Html.ActionLink("reset", "paperdb", "exam", routeValues: null, htmlAttributes: new { id = "registerLink", @style = "color:black;margin-right: 20px;" })
+
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+</body>
+</html>

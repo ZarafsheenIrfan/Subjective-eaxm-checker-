@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b189a6d73e7345ec8ef003e217633fbf" Name="Diagram1">
+        <EntityTypeShape EntityType="online_examModel.account" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.course" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.paper" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.question" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.solution" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.student" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.sysdiagram" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_examModel.teacher" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="online_examModel.FK_course_student" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_paper_teacher" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_question_paper" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_solution_paper" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_question_question" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_question_question1" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_question_question2" ManuallyRouted="false" />
+        <AssociationConnector Association="online_examModel.FK_student_teacher" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
